@@ -7,5 +7,5 @@
                  [quil "2.2.5"]]
   :plugins [[lein-midje "3.1.3"]]
   :main ^:skip-aot game-of-life.gui
-  :target-path "target/%s"
+  :uberjar-name "game-of-life.jar"
   :profiles {:uberjar {:aot :all}})
