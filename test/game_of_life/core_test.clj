@@ -98,56 +98,56 @@
        (fact "rule-one: under-populated?"
              (let [width 3]
                (under-populated? width 1 [0 1 0
-                                          0 0 0]) => true
+                                          0 0 0]) => truthy
                (under-populated? width 1 [1 1 1
-                                          1 1 1]) => false
+                                          1 1 1]) => falsey
                (under-populated? width 0 [1 1 0
-                                          1 0 0]) => false
+                                          1 0 0]) => falsey
                (under-populated? width 0 [1 0 0
-                                          1 0 0]) => true
+                                          1 0 0]) => truthy
                (under-populated? width 0 [0 0 0
-                                          1 0 0]) => false
+                                          1 0 0]) => falsey
                (under-populated? width 0 [0 1 1
-                                          1 1 1]) => false
+                                          1 1 1]) => falsey
                (under-populated? width 4 [0 0 0
-                                          0 1 0]) => true
+                                          0 1 0]) => truthy
                (under-populated? width 1 []) => (throws IndexOutOfBoundsException)))
        (fact "rule-two: lives-on?"
              (let [width 3]
                (lives-on? width 1 [0 1 0
-                                   0 0 0]) => false
+                                   0 0 0]) => falsey
                (lives-on? width 1 [1 1 1
-                                   0 0 0]) => true
+                                   0 0 0]) => truthy
                (lives-on? width 1 [1 1 1
-                                   1 0 0]) => true
+                                   1 0 0]) => truthy
                (lives-on? width 1 [1 1 1
-                                   0 1 1]) => false
+                                   0 1 1]) => falsey
                (lives-on? width 1 [1 0 1
-                                   0 0 0]) => false
+                                   0 0 0]) => falsey
                (under-populated? width 1 []) => (throws IndexOutOfBoundsException)))
        (fact "rule-three: over-crowded?"
              (let [width 3]
                (over-crowded? width 1 [0 1 0
-                                       0 0 0]) => false
+                                       0 0 0]) => falsey
                (over-crowded? width 1 [0 1 0
-                                       1 1 1]) => false
+                                       1 1 1]) => falsey
                (over-crowded? width 1 [1 1 0
-                                       1 1 1]) => true
+                                       1 1 1]) => truthy
                (over-crowded? width 1 [1 0 0
-                                       1 1 1]) => false
+                                       1 1 1]) => falsey
                (under-populated? width 1 []) => (throws IndexOutOfBoundsException)))
        (fact "rule-four: reproduced?"
              (let [width 3]
                (reproduced? width 1 [0 1 0
-                                     0 0 0]) => false
+                                     0 0 0]) => falsey
                (reproduced? width 1 [0 0 0
-                                     1 1 1]) => true
+                                     1 1 1]) => truthy
                (reproduced? width 1 [0 0 0
-                                     0 1 1]) => false
+                                     0 1 1]) => falsey
                (reproduced? width 1 [1 0 0
-                                     1 1 1]) => false
+                                     1 1 1]) => falsey
                (reproduced? width 1 [0 1 0
-                                     1 1 1]) => false
+                                     1 1 1]) => falsey
                (under-populated? width 1 []) => (throws IndexOutOfBoundsException))))
 
 (facts "new generation tick"

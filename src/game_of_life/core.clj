@@ -5,7 +5,9 @@
 ;3. Any live cell with more than three live neighbours dies, as if by overcrowding.
 ;4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
-(defn live-cell? [cell] (not (zero? cell)))
+(defn live-cell?
+  [cell]
+  (not (zero? cell)))
 
 (defn north
   [w idx field]
@@ -56,45 +58,36 @@
                    (northeast w idx field)]]
     (count (filter live-cell? neighbors))))
 
-;TODO: Better way of return false?
 (defn under-populated?
   [width pos field]
-  (if (live-cell? (field pos))
-    (> 2 (count-live-neighbors width pos field))
-    false))
+  (when (live-cell? (field pos))
+    (> 2 (count-live-neighbors width pos field))))
 (defn lives-on?
   [width pos field]
-  (if (live-cell? (field pos))
+  (when (live-cell? (field pos))
     (let [live-neighbors (count-live-neighbors width pos field)]
-      (or (= 2 live-neighbors) (= 3 live-neighbors)))
-    false))
+      (or (= 2 live-neighbors) (= 3 live-neighbors)))))
 (defn over-crowded?
   [width pos field]
-  (if (live-cell? (field pos))
-    (< 3 (count-live-neighbors width pos field))
-    false))
+  (when (live-cell? (field pos))
+    (< 3 (count-live-neighbors width pos field))))
 (defn reproduced?
   [width pos field]
-  (if (not (live-cell? (field pos)))
-    (= 3 (count-live-neighbors width pos field))
-    false))
+  (when (not (live-cell? (field pos)))
+    (= 3 (count-live-neighbors width pos field))))
 
 (defn tick
   [w field]
-  (->>
-    (map-indexed (fn [idx cell]
-                   (if (under-populated? w idx field)
-                     0
-                     (if (lives-on? w idx field)
-                       1
-                       (if (over-crowded? w idx field)
-                         0
-                         (if (reproduced? w idx field)
-                           1
-                           cell)))))
-                 field)
-    (into [])))
-
+  (vec
+    (map-indexed
+      (fn [idx cell]
+        (cond
+          (under-populated? w idx field) 0
+          (lives-on? w idx field) 1
+          (over-crowded? w idx field) 0
+          (reproduced? w idx field) 1
+          :else cell))
+      field)))
 
 (defn ticks
   [width field iterations]
